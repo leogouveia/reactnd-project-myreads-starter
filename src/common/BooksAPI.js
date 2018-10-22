@@ -42,3 +42,18 @@ export const search = (query) =>
     body: JSON.stringify({ query })
   }).then(res => res.json())
     .then(data => data.books)
+
+export const getShelves = () => ([
+  {
+    id: "currentlyReading",
+    name: "Currently Reading"
+  },
+  {
+    id: "wantToRead",
+    name: "Want to Read"
+  },
+  {
+    id: "read",
+    name: "Read"
+  }
+])
