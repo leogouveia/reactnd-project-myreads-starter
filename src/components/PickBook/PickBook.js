@@ -20,17 +20,20 @@ class PickBook extends Component {
     super(props);
     this.handleChangeSearchInput = this.handleChangeSearchInput.bind(this);
     this.handleChangeShelf = this.handleChangeShelf.bind(this);
+    this.getShelves = this.getShelves.bind(this);
+    this.mergeBooks = this.mergeBooks.bind(this);
   }
 
-  componentDidMount() {
-    const { shelves } = this.props;
-    shelves.push({ id: "none", name: "None" });
-    this.setState(() => ({ shelves }));
+  getShelves() {
+    return [{ id: 'none', name: 'None'}, ...this.props.shelves];
   }
 
-  handleChangeShelf(data) {
-    this.resetBooks();
-    this.props.handleChangeShelf(data);
+  handleChangeShelf(book) {
+    this.setState((prevState) => {
+      const { queriedBooks } = prevState;
+      return { queriedBooks: queriedBooks.map(b => b.id === book.id ? book : b) };
+    });
+    this.props.handleChangeShelf(book);
   }
 
   handleChangeSearchInput(ev) {
@@ -39,10 +42,12 @@ class PickBook extends Component {
     BooksAPI.search(query)
       .then(queriedBooks => {
         if (queriedBooks.error === "empty query") return this.resetBooks();
-        if (Array.isArray(queriedBooks)) return this.setState(() => ({ queriedBooks }));
+        if (Array.isArray(queriedBooks)) {
+          this.mergeBooks(queriedBooks);
+        }
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
         this.resetBooks();
       });
   }
@@ -51,9 +56,20 @@ class PickBook extends Component {
     this.setState(() => ({ queriedBooks: [] }));
   }
 
+  mergeBooks(queriedBooks) {
+    const { books } = this.props;
+    const mergedBooks = queriedBooks.map(book => {
+      const [ propBook ] = books.filter(b => b.id === book.id);
+      if (propBook) {
+        return propBook;
+      }
+      return { shelf: 'none', ...book };
+    });
+    return this.setState(() => ({ queriedBooks: mergedBooks }));
+  }
+
   render() {
     const { queriedBooks } = this.state;
-    const { shelves } = this.props;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -75,7 +91,7 @@ class PickBook extends Component {
                 <Book book={book}>
                   <ShelfChange
                     book={book}
-                    shelves={shelves}
+                    shelves={this.getShelves()}
                     handleChangeShelf={data => this.handleChangeShelf(data)}
                   />
                 </Book>

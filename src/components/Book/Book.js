@@ -30,16 +30,14 @@ export class Book extends Component {
       </div>
     );
   }
-
+  
   getBookData(book) {
     let { title, authors, imageLinks } = book;
     title = title || '';
     authors = !Array.isArray(authors) ? authors : authors.join(', ');
     const thumbnail = imageLinks && _.has(imageLinks, 'thumbnail') ? imageLinks.thumbnail : '';
-    console.log(title, authors);
     return { title, authors, thumbnail };
   }
-
 }
 
 

@@ -2,40 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export class ShelfChange extends Component {
-  state = {
-    selectedShelf: ''
-  };
-
   static propTypes = {
     book: PropTypes.object,
     shelves: PropTypes.array,
     handleChangeShelf: PropTypes.func.isRequired
   };
 
-  componentDidMount() {
-    const { book } = this.props;
-    const { shelf } = book;
-    console.log('Shelf', book, shelf);
-    this.setState(() => ({ selectedShelf: shelf }));
+  constructor(props) {
+    super(props);
+    this.handleChangeShelf = this.handleChangeShelf.bind(this);
   }
 
   handleChangeShelf(ev) {
-    const { handleChangeShelf } = this.props;
-    const selectedShelf = ev.target.value;
-    handleChangeShelf({book: this.props.book, selectedShelf});
+    const { handleChangeShelf, book } = this.props;
+    book.oldShelf = book.shelf;
+    book.shelf = ev.target.value;
+    handleChangeShelf(book);
   }
 
   render() {
-    const { selectedShelf } = this.state;
-    const { shelves } = this.props;
+    const { shelves, book } = this.props;
     return (
       <div className="book-shelf-changer">
-        <select value={selectedShelf || 'none'} onChange={this.handleChangeShelf.bind(this)} >
+        <select value={book.shelf} onChange={this.handleChangeShelf} >
           <option value="move" disabled>
             Move to...
           </option>
-          {shelves.map(shelf => (
-            <option key={shelf.id} value={shelf.id}>{shelf.name}</option>
+          {shelves.map((shelf, index) => (
+            <option key={`${shelf.id}${index}`} value={shelf.id}>{shelf.name}</option>
           ))}
         </select>
       </div>
