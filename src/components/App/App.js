@@ -1,9 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import cogoToast from 'cogo-toast';
+
 import "./App.css";
-import PickBook from "../PickBook/PickBook";
+import SearchBooks from "../SearchBooks/SearchBooks";
 import Bookcase from "../Bookcase/Bookcase";
-import * as BooksAPI from "../../common/BooksAPI";
+import * as BooksService from "../../common/BooksService";
 
 class BooksApp extends React.Component {
   state = {
@@ -11,16 +13,22 @@ class BooksApp extends React.Component {
     shelves: []
   };
 
+  notify(type, message) {
+    return cogoToast[type](message, {
+      position: 'bottom-right'
+    });
+  }
+
   constructor(props) {
     super(props);
     this.onChangeShelf = this.onChangeShelf.bind(this);
   }
 
   componentDidMount() {
-    const shelves = BooksAPI.getShelves();
+    const shelves = BooksService.getShelves();
     this.setState(() => ({ shelves }));
 
-    BooksAPI.getAll().then(books => {
+    BooksService.getAll().then(books => {
       this.setState(() => ({ books }));
     });
   }
@@ -30,8 +38,11 @@ class BooksApp extends React.Component {
     books.push(book);
     this.setState(() => ({ books }));
 
-    BooksAPI.update(book, book.shelf)
-      .then(() => BooksAPI.getAll())
+    BooksService.update(book, book.shelf)
+      .then(() => {
+        this.notify('success', 'The book was changed.');
+        return BooksService.getAll();
+      })
       .catch(() => (book.shelf = book.oldShelf))
       .then(books => this.setState(() => ({ books })));
   }
@@ -45,7 +56,7 @@ class BooksApp extends React.Component {
             <Route
               path="/search"
               render={() => (
-                <PickBook
+                <SearchBooks
                   books={books}
                   shelves={shelves}
                   handleChangeShelf={this.onChangeShelf}
