@@ -5,8 +5,7 @@ export class Shelf extends Component {
   state = {};
 
   static defaultProps = {
-    name: "",
-    books: []
+    name: ""
   };
 
   static propTypes = {

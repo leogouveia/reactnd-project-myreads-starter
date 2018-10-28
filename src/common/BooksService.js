@@ -1,4 +1,4 @@
-import * as booksAPI from './BooksAPI';
+import * as BooksAPI from './BooksAPI';
 import '@babel/polyfill';
 
 export const getShelves = () => ([
@@ -31,31 +31,30 @@ const mergeBooks = (queriedBooks, booksInShelf) => {
 };
 
 export const getAll = () => {
-  return booksAPI.getAll()
+  return BooksAPI.getAll()
     .then((res) => res)
     .catch((err) => Promise.reject(err));
 };
 
 export const get = (id) => {
-  return booksAPI.get(id);
+  return BooksAPI.get(id);
 };
 
 export const search = async (query, booksInShelf) => {
-  let searchedBooks = await booksAPI.search(query);
-
-  if (searchedBooks && Object.prototype.hasOwnProperty.call(searchedBooks, 'error')) {
+  let searchedBooks = await BooksAPI.search(query);
+  
+  if (!Array.isArray(searchedBooks)) {
     throw new Error('No Books');
   }
   
-
   if (booksInShelf) {
     return mergeBooks(searchedBooks, booksInShelf);
   }
-  booksInShelf = await booksAPI.getAll();
+  booksInShelf = await BooksAPI.getAll();
   return mergeBooks(searchedBooks, booksInShelf);
 
 };
 
 export const update = (shelf, book) => {
-  return booksAPI.update(book, shelf);
+  return BooksAPI.update(book, shelf);
 };

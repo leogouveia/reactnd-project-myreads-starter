@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a shelf with books 1`] = `
+<div
+  className="bookshelf"
+>
+  <h2
+    className="bookshelf-title"
+  >
+    Shelf name
+  </h2>
+  <div
+    className="bookshelf-books"
+  >
+    <ol
+      className="books-grid"
+    >
+      <Book
+        authors={Array []}
+        book={
+          Object {
+            "authors": "Jonh Doe",
+            "id": 1,
+            "imageLinks": Object {
+              "thumbnail": "http://fakeimage.com/image1.png",
+            },
+            "shelf": "shelf1",
+            "title": "Book1 Title",
+          }
+        }
+      />
+      <Book
+        authors={Array []}
+        book={
+          Object {
+            "authors": "Jane Doe",
+            "id": 2,
+            "imageLinks": Object {
+              "thumbnail": "http://fakeimage.com/image2.png",
+            },
+            "shelf": "shelf3",
+            "title": "Book2 Title",
+          }
+        }
+      />
+    </ol>
+  </div>
+</div>
+`;
+
+exports[`should render a shelf without books 1`] = `
+<div
+  className="bookshelf"
+>
+  <h2
+    className="bookshelf-title"
+  >
+    Shelf name
+  </h2>
+  <div
+    className="bookshelf-books"
+  >
+    <ol
+      className="books-grid"
+    />
+  </div>
+</div>
+`;

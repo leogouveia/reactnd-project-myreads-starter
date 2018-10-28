@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render book change component 1`] = `
+<div
+  className="book-shelf-changer"
+>
+  <select
+    onChange={[Function]}
+    value="shelf1"
+  >
+    <option
+      disabled={true}
+      value="move"
+    >
+      Move to...
+    </option>
+    <option
+      key="shelf10"
+      value="shelf1"
+    >
+      Shelf 1
+    </option>
+    <option
+      key="shelf21"
+      value="shelf2"
+    >
+      Shelf 2
+    </option>
+    <option
+      key="shelf32"
+      value="shelf3"
+    >
+      Shelf 3
+    </option>
+  </select>
+</div>
+`;

@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a Bookcase 1`] = `
+<div>
+  <Shelf
+    key="shelf1"
+    name="Shelf 1"
+  >
+    <li
+      key="1"
+    >
+      <Book
+        authors={Array []}
+        book={
+          Object {
+            "authors": "Jonh Doe",
+            "id": 1,
+            "imageLinks": Object {
+              "thumbnail": "http://fakeimage.com/image1.png",
+            },
+            "shelf": "shelf1",
+            "title": "Book1 Title",
+          }
+        }
+      >
+        <ShelfChange
+          book={
+            Object {
+              "authors": "Jonh Doe",
+              "id": 1,
+              "imageLinks": Object {
+                "thumbnail": "http://fakeimage.com/image1.png",
+              },
+              "shelf": "shelf1",
+              "title": "Book1 Title",
+            }
+          }
+          handleChangeShelf={[MockFunction]}
+          shelves={
+            Array [
+              Object {
+                "id": "shelf1",
+                "name": "Shelf 1",
+              },
+              Object {
+                "id": "shelf2",
+                "name": "Shelf 2",
+              },
+              Object {
+                "id": "shelf3",
+                "name": "Shelf 3",
+              },
+            ]
+          }
+        />
+      </Book>
+    </li>
+  </Shelf>
+  <Shelf
+    key="shelf2"
+    name="Shelf 2"
+  />
+  <Shelf
+    key="shelf3"
+    name="Shelf 3"
+  >
+    <li
+      key="2"
+    >
+      <Book
+        authors={Array []}
+        book={
+          Object {
+            "authors": "Jane Doe",
+            "id": 2,
+            "imageLinks": Object {
+              "thumbnail": "http://fakeimage.com/image2.png",
+            },
+            "shelf": "shelf3",
+            "title": "Book2 Title",
+          }
+        }
+      >
+        <ShelfChange
+          book={
+            Object {
+              "authors": "Jane Doe",
+              "id": 2,
+              "imageLinks": Object {
+                "thumbnail": "http://fakeimage.com/image2.png",
+              },
+              "shelf": "shelf3",
+              "title": "Book2 Title",
+            }
+          }
+          handleChangeShelf={[MockFunction]}
+          shelves={
+            Array [
+              Object {
+                "id": "shelf1",
+                "name": "Shelf 1",
+              },
+              Object {
+                "id": "shelf2",
+                "name": "Shelf 2",
+              },
+              Object {
+                "id": "shelf3",
+                "name": "Shelf 3",
+              },
+            ]
+          }
+        />
+      </Book>
+    </li>
+  </Shelf>
+  <div
+    className="open-search"
+  >
+    <Link
+      replace={false}
+      to="/search"
+    >
+      Add book
+    </Link>
+  </div>
+</div>
+`;

@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a book 1`] = `
+<div
+  className="book"
+>
+  <div
+    className="book-top"
+  >
+    <div
+      className="book-cover"
+      style={
+        Object {
+          "backgroundImage": "url(http://fakeimage.com/image.png)",
+          "height": 193,
+          "width": 128,
+        }
+      }
+    />
+  </div>
+  <div
+    className="book-title"
+  >
+    Book Title
+  </div>
+  <div
+    className="book-authors"
+  >
+    Jonh Doe
+  </div>
+</div>
+`;
+
+exports[`should render a book without authors and cover 1`] = `
+<div
+  className="book"
+>
+  <div
+    className="book-top"
+  >
+    <div
+      className="book-cover"
+      style={
+        Object {
+          "backgroundImage": "url()",
+          "height": 193,
+          "width": 128,
+        }
+      }
+    />
+  </div>
+  <div
+    className="book-title"
+  >
+    Book Title
+  </div>
+  <div
+    className="book-authors"
+  />
+</div>
+`;
