@@ -37,7 +37,6 @@ class Bookcase extends React.Component {
       </div>
     );
   }
-  
 }
 
 export default Bookcase;

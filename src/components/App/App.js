@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import cogoToast from 'cogo-toast';
+import cogoToast from "cogo-toast";
 
 import "./App.css";
 import SearchBooks from "../SearchBooks/SearchBooks";
@@ -15,7 +15,7 @@ class BooksApp extends React.Component {
 
   notify(type, message) {
     return cogoToast[type](message, {
-      position: 'bottom-right'
+      position: "bottom-right"
     });
   }
 
@@ -40,7 +40,7 @@ class BooksApp extends React.Component {
 
     BooksService.update(book, book.shelf)
       .then(() => {
-        this.notify('success', 'The book was changed.');
+        this.notify("success", "The book was changed.");
         return BooksService.getAll();
       })
       .catch(() => (book.shelf = book.oldShelf))

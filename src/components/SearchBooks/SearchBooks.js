@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import './SearchBooks.css';
+import "./SearchBooks.css";
 import { Link } from "react-router-dom";
 import * as BooksService from "../../common/BooksService";
 import { Book } from "../Book/Book";
@@ -10,7 +10,7 @@ import Spinner from "../Spinner/Spinner";
 
 class SearchBooks extends Component {
   state = {
-    query: '',
+    query: "",
     queriedBooks: [],
     isLoading: false
   };
@@ -21,7 +21,6 @@ class SearchBooks extends Component {
     handleChangeShelf: PropTypes.func.isRequired
   };
 
-  
   constructor(props) {
     super(props);
     this.handleChangeSearchInput = this.handleChangeSearchInput.bind(this);
@@ -30,36 +29,37 @@ class SearchBooks extends Component {
   }
 
   getShelves() {
-    return [{ id: 'none', name: 'None'}, ...this.props.shelves];
+    return [{ id: "none", name: "None" }, ...this.props.shelves];
   }
 
   handleChangeShelf(book) {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       const { queriedBooks } = prevState;
-      return { queriedBooks: queriedBooks.map(b => b.id === book.id ? book : b) };
+      return {
+        queriedBooks: queriedBooks.map(b => (b.id === book.id ? book : b))
+      };
     });
     this.props.handleChangeShelf(book);
   }
 
   handleChangeSearchInput(ev) {
     const query = ev.target.value.trim();
-    this.setState({query, isLoading: true}, () => {
+    this.setState({ query, isLoading: true }, () => {
       BooksService.search(query)
-        .then((queriedBooks) => 
-          this.setState((prev) => 
-            (prev.query !== query) || ({ queriedBooks })
-          )
-        ).catch(() => this.resetBooks())
-        .finally(() => 
-          setTimeout(() => this.setState({isLoading: false}), 1000)
+        .then(queriedBooks =>
+          this.setState(prev => prev.query !== query || { queriedBooks })
+        )
+        .catch(() => this.resetBooks())
+        .finally(() =>
+          setTimeout(() => this.setState({ isLoading: false }), 1000)
         );
-       });
-      }
+    });
+  }
 
   resetBooks() {
     this.setState(() => ({ queriedBooks: [] }));
   }
-  
+
   render() {
     const { query, queriedBooks, isLoading } = this.state;
     return (
@@ -77,14 +77,16 @@ class SearchBooks extends Component {
             />
           </div>
           <div className="search-books-loading-wrapper">
-              <Spinner loading={isLoading} />
+            <Spinner loading={isLoading} />
           </div>
         </div>
 
         <div className="search-books-results">
-          {(query.length > 0 && queriedBooks.length === 0 && !isLoading) && (
-            <p className="search-books-no-results">No books where found.</p>
-          )}
+          {query.length > 0 &&
+            queriedBooks.length === 0 &&
+            !isLoading && (
+              <p className="search-books-no-results">No books where found.</p>
+            )}
           <ol className="books-grid">
             {queriedBooks.map(book => (
               <li key={book.id}>
@@ -105,13 +107,3 @@ class SearchBooks extends Component {
 }
 
 export default SearchBooks;
-
-
-/*
-    NOTES: The search from BooksAPI is limited to a particular set of search terms.
-    You can find these search terms here:
-    https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-    However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-    you don't find a specific author or title. Every search is limited by search terms.
-*/

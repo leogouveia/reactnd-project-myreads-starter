@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 export class ShelfChange extends Component {
   static propTypes = {
@@ -24,12 +24,14 @@ export class ShelfChange extends Component {
     const { shelves, book } = this.props;
     return (
       <div className="book-shelf-changer">
-        <select value={book.shelf} onChange={this.handleChangeShelf} >
+        <select value={book.shelf} onChange={this.handleChangeShelf}>
           <option value="move" disabled>
             Move to...
           </option>
           {shelves.map((shelf, index) => (
-            <option key={`${shelf.id}${index}`} value={shelf.id}>{shelf.name}</option>
+            <option key={`${shelf.id}${index}`} value={shelf.id}>
+              {shelf.name}
+            </option>
           ))}
         </select>
       </div>

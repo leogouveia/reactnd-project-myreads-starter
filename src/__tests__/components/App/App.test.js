@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { mount } from "enzyme";
 import toJson from "enzyme-to-json";
 import { shelves, books, booksWithoutShelf } from "../../fixtures/fixtures";
 import BooksApp from "../../../components/App/App";
@@ -7,30 +7,29 @@ import * as BooksService from "../../../common/BooksService";
 
 jest.mock("../../../common/BooksService");
 
-describe('<App />', () => {
-  it('should render app page', () => {
-    BooksService.getAll.mockImplementation(() =>
-      Promise.resolve(books)
-    );
+describe("<App />", () => {
+  it("should render app page", () => {
+    BooksService.getAll.mockImplementation(() => Promise.resolve(books));
     BooksService.update.mockImplementation((book, shelf) =>
       Promise.resolve({ ...book, shelf })
     );
     BooksService.getShelves.mockReturnValue(shelves);
 
-    const newBook = { ...books[0], shelf: 'shelf3'};
-    const wrapper = mount(
-      <BooksApp />
-    );
+    const newBook = { ...books[0], shelf: "shelf3" };
+    const wrapper = mount(<BooksApp />);
     expect(toJson(wrapper)).toMatchSnapshot();
-    return BooksService.getAll().then(() => {
-      expect(wrapper.state('books')).toEqual(books);
-      expect(wrapper.state('shelves')).toEqual(shelves);
-      return wrapper.instance().onChangeShelf(newBook);
-      
-    }).then(() => {
-      expect(wrapper.state('books')).toEqual(books.map(b => 
-        (b.id === newBook.id) ? newBook : b
-      ).sort((a, b) => b.id - a.id));
-    })
-  })
-})
+    return BooksService.getAll()
+      .then(() => {
+        expect(wrapper.state("books")).toEqual(books);
+        expect(wrapper.state("shelves")).toEqual(shelves);
+        return wrapper.instance().onChangeShelf(newBook);
+      })
+      .then(() => {
+        expect(wrapper.state("books")).toEqual(
+          books
+            .map(b => (b.id === newBook.id ? newBook : b))
+            .sort((a, b) => b.id - a.id)
+        );
+      });
+  });
+});

@@ -19,9 +19,7 @@ export class Shelf extends Component {
       <div className="bookshelf">
         <h2 className="bookshelf-title">{name}</h2>
         <div className="bookshelf-books">
-          <ol className="books-grid">
-            {children}
-          </ol>
+          <ol className="books-grid">{children}</ol>
         </div>
       </div>
     );

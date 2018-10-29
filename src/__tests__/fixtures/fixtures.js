@@ -1,13 +1,17 @@
-export const shelves = [{
-  id: "shelf1",
-  name: "Shelf 1"
-}, {
-  id: "shelf2",
-  name: "Shelf 2"
-}, {
-  id: "shelf3",
-  name: "Shelf 3"
-}];
+export const shelves = [
+  {
+    id: "shelf1",
+    name: "Shelf 1"
+  },
+  {
+    id: "shelf2",
+    name: "Shelf 2"
+  },
+  {
+    id: "shelf3",
+    name: "Shelf 3"
+  }
+];
 
 export const books = [
   {
