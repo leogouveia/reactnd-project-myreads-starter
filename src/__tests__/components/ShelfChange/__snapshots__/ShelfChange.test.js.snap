@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render book change component 1`] = `
+exports[`<ShelfChange /> should render book change component 1`] = `
 <div
   className="book-shelf-changer"
 >

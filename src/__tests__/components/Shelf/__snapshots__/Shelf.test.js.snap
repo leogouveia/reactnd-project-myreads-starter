@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render a shelf with books 1`] = `
+exports[`<Shelf /> should render a shelf with books 1`] = `
 <div
   className="bookshelf"
 >
@@ -48,7 +48,7 @@ exports[`should render a shelf with books 1`] = `
 </div>
 `;
 
-exports[`should render a shelf without books 1`] = `
+exports[`<Shelf /> should render a shelf without books 1`] = `
 <div
   className="bookshelf"
 >

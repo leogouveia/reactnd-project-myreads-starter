@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render search page 1`] = `
+exports[`<SearchBooks /> should render search page 1`] = `
 <div
   className="search-books"
 >

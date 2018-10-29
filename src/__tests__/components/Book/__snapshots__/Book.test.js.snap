@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render a book 1`] = `
+exports[`<Book /> should render a book 1`] = `
 <div
   className="book"
 >
@@ -31,7 +31,7 @@ exports[`should render a book 1`] = `
 </div>
 `;
 
-exports[`should render a book without authors and cover 1`] = `
+exports[`<Book /> should render a book without authors and cover 1`] = `
 <div
   className="book"
 >

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render a Bookcase 1`] = `
+exports[`<Bookcase /> should render a Bookcase 1`] = `
 <div>
   <Shelf
     key="shelf1"
