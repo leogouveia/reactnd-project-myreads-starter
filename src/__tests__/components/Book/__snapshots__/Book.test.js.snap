@@ -42,7 +42,7 @@ exports[`<Book /> should render a book without authors and cover 1`] = `
       className="book-cover"
       style={
         Object {
-          "backgroundImage": "url()",
+          "backgroundImage": "url(test-file-stub)",
           "height": 193,
           "width": 128,
         }

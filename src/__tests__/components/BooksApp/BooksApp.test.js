@@ -2,12 +2,12 @@ import React from "react";
 import { mount } from "enzyme";
 import toJson from "enzyme-to-json";
 import { shelves, books, booksWithoutShelf } from "../../fixtures/fixtures";
-import BooksApp from "../../../components/App/App";
+import BooksApp from "../../../components/BooksApp/BooksApp";
 import * as BooksService from "../../../common/BooksService";
 
 jest.mock("../../../common/BooksService");
 
-describe("<App />", () => {
+describe("<BooksApp />", () => {
   it("should render app page", () => {
     BooksService.getAll.mockImplementation(() => Promise.resolve(books));
     BooksService.update.mockImplementation((book, shelf) =>

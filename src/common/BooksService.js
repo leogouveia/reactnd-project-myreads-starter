@@ -54,6 +54,6 @@ export const search = async (query, booksInShelf) => {
   return mergeBooks(searchedBooks, booksInShelf);
 };
 
-export const update = (shelf, book) => {
+export const update = (book, shelf) => {
   return BooksAPI.update(book, shelf);
 };

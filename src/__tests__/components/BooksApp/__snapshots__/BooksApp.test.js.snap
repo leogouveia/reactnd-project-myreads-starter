@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<App /> should render app page 1`] = `
+exports[`<BooksApp /> should render app page 1`] = `
 <BooksApp>
   <BrowserRouter>
     <Router
