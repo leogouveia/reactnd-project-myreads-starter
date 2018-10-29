@@ -33,7 +33,6 @@ class BooksApp extends React.Component {
     });
   }
   componentWillUnmount() {
-    console.log('componentWillUnmount');
   }
   onChangeShelf(book) {
     const oldBooks = this.state.books;
