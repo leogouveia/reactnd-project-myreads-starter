@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
+import "./ShelfChange.css";
 export class ShelfChange extends Component {
   static propTypes = {
     book: PropTypes.object,

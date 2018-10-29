@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import "./Book.css";
+import noCoverImage from "./no-cover.jpg"
 
 export class Book extends Component {
   state = {};
@@ -18,7 +19,7 @@ export class Book extends Component {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: `url(${thumbnail})`
+              backgroundImage: `url(${thumbnail || noCoverImage})`
             }}
           />
           {children}

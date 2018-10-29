@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
+import "./Shelf.css";
 export class Shelf extends Component {
   state = {};
 
