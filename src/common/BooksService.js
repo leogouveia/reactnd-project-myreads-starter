@@ -55,5 +55,14 @@ export const search = async (query, booksInShelf) => {
 };
 
 export const update = (book, shelf) => {
-  return BooksAPI.update(book, shelf);
+  return BooksAPI.update(book, shelf)
+      .then(res => {
+        if(!Object.prototype.hasOwnProperty.call(res, shelf.id)) {
+          throw 'Response error';
+        }
+        if (!res[shelf.id].some((bookId) => book.id === bookId)) {
+          throw 'Book shelf not changed';
+        }
+        return res;
+      });
 };

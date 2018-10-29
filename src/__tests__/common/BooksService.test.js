@@ -36,4 +36,28 @@ describe("BooksService", () => {
       ]);
     });
   });
+
+  describe(">> update", () => {
+    it("should throw an error if book doesn't change shelf", () => {
+      BooksAPI.update.mockResolvedValue({
+        shelf1: [1, "2"],
+        shelf2: ["3", "4", "5"],
+        shelf3: ["6", "7", "8"]
+      });
+  
+      return BooksService.update(books[0], {id: 'shelf2'}).catch((error) => {
+        return expect(error).toEqual('Book shelf not changed');
+      });
+         
+    });
+  
+    it("should throw an error if response is not as expected", () => {
+      BooksAPI.update.mockResolvedValue({});
+  
+      return BooksService.update(books[0], {id: 'shelf2'}).catch((error) => {
+        return expect(error).toEqual('Response error');
+      });
+         
+    });
+  })
 });

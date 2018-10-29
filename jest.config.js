@@ -3,7 +3,7 @@
 const { defaults } = require("jest-config");
 module.exports = {
   setupFiles: ["raf/polyfill", "<rootDir>/src/__tests__/setupTests.js"],
-  verbose: true,
+  verbose: false,
   transform: {
     "^.+\\.jsx?$": "babel-jest",
     "^.+\\.js$": "babel-jest",

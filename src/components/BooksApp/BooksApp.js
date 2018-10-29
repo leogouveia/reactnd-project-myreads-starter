@@ -32,8 +32,11 @@ class BooksApp extends React.Component {
       this.setState(() => ({ books }));
     });
   }
-
+  componentWillUnmount() {
+    console.log('componentWillUnmount');
+  }
   onChangeShelf(book) {
+    const oldBooks = this.state.books;
     let books = this.state.books.filter(b => b.id !== book.id);
     books.push(book);
     this.setState(() => ({ books }));
@@ -43,8 +46,11 @@ class BooksApp extends React.Component {
         this.notify("success", "The book was changed.");
         return BooksService.getAll();
       })
-      .catch(() => (book.shelf = book.oldShelf))
-      .then(books => this.setState(() => ({ books })));
+      .catch(() => {
+        this.notify("error", "There was a problem changing the shelf of this book.")
+        this.setState({ books: oldBooks });
+      })
+      .then(books => this.setState(() => ({ oldBooks })));
   }
 
   render() {
