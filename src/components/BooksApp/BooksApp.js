@@ -21,36 +21,28 @@ class BooksApp extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onChangeShelf = this.onChangeShelf.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const shelves = BooksService.getShelves();
     this.setState(() => ({ shelves }));
-
-    BooksService.getAll().then(books => {
-      this.setState(() => ({ books }));
-    });
-  }
-  componentWillUnmount() {
-  }
-  onChangeShelf(book) {
-    const oldBooks = this.state.books;
-    let books = this.state.books.filter(b => b.id !== book.id);
-    books.push(book);
+    const books = await BooksService.getAll();
     this.setState(() => ({ books }));
-
-    BooksService.update(book, book.shelf)
-      .then(() => {
-        this.notify("success", "The book was changed.");
-        return BooksService.getAll();
-      })
-      .catch(() => {
-        this.notify("error", "There was a problem changing the shelf of this book.")
-        this.setState({ books: oldBooks });
-      })
-      .then(books => this.setState(() => ({ oldBooks })));
   }
+  componentWillUnmount() {}
+  onChangeShelf = async book => {
+    try {
+      const books = await BooksService.update(book, book.shelf);
+      this.notify("success", "The book was changed.");
+      this.setState({books});
+    } catch (e) {
+      console.error(e);
+      this.notify(
+        "error",
+        "There was a problem changing the shelf of this book."
+      );
+    }
+  };
 
   render() {
     const { books, shelves } = this.state;

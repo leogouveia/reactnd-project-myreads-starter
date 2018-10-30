@@ -38,26 +38,38 @@ describe("BooksService", () => {
   });
 
   describe(">> update", () => {
+    it("should return all books with correct shelves", async () => {
+      const newBook = { ...books[0], shelf: "shelf2" };
+      const newBooks = [books.filter(b => b.id !== newBook.id), newBook];
+      BooksAPI.getAll.mockResolvedValue(newBooks);
+      BooksAPI.update.mockResolvedValue({
+        shelf1: ["2"],
+        shelf2: [1, "3", "4", "5"],
+        shelf3: ["6", "7", "8"]
+      });
+
+      const result = await BooksService.update(books[0], "shelf2");
+      expect(result).toEqual(newBooks);
+    });
+
     it("should throw an error if book doesn't change shelf", () => {
       BooksAPI.update.mockResolvedValue({
         shelf1: [1, "2"],
         shelf2: ["3", "4", "5"],
         shelf3: ["6", "7", "8"]
       });
-  
-      return BooksService.update(books[0], {id: 'shelf2'}).catch((error) => {
-        return expect(error).toEqual('Book shelf not changed');
+
+      return BooksService.update(books[0], "shelf2").catch(error => {
+        return expect(error).toEqual("Book shelf not changed");
       });
-         
     });
-  
+
     it("should throw an error if response is not as expected", () => {
       BooksAPI.update.mockResolvedValue({});
-  
-      return BooksService.update(books[0], {id: 'shelf2'}).catch((error) => {
-        return expect(error).toEqual('Response error');
+
+      return BooksService.update(books[0], "shelf2").catch(error => {
+        return expect(error).toEqual("Response error");
       });
-         
     });
-  })
+  });
 });

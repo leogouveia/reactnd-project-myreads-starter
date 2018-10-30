@@ -10,10 +10,9 @@ export class ShelfChange extends Component {
 
   constructor(props) {
     super(props);
-    this.handleChangeShelf = this.handleChangeShelf.bind(this);
   }
 
-  handleChangeShelf(ev) {
+  handleChangeShelf = (ev) => {
     const { handleChangeShelf, book } = this.props;
     book.oldShelf = book.shelf;
     book.shelf = ev.target.value;

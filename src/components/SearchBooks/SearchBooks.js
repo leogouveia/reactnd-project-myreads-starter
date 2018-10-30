@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import lodash from "lodash";
 
 import "./SearchBooks.css";
 import { Link } from "react-router-dom";
@@ -14,54 +15,46 @@ class SearchBooks extends Component {
     queriedBooks: [],
     isLoading: false
   };
-
   static propTypes = {
     shelves: PropTypes.array.isRequired,
     books: PropTypes.array.isRequired,
     handleChangeShelf: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.handleChangeSearchInput = this.handleChangeSearchInput.bind(this);
-    this.handleChangeShelf = this.handleChangeShelf.bind(this);
-    this.getShelves = this.getShelves.bind(this);
-  }
-
-  getShelves() {
-    return [{ id: "none", name: "None" }, ...this.props.shelves];
-  }
-
-  handleChangeShelf(book) {
-    this.setState(prevState => {
-      const { queriedBooks } = prevState;
-      return {
-        queriedBooks: queriedBooks.map(b => (b.id === book.id ? book : b))
-      };
-    });
+  handleChangeShelf = book => {
+    this.setState(({ queriedBooks }) => ({
+      queriedBooks: queriedBooks.map(b => (b.id === book.id ? book : b))
+    }));
     this.props.handleChangeShelf(book);
-  }
+  };
 
-  handleChangeSearchInput(ev) {
+  handleChangeSearchInput = ev => {
     const query = ev.target.value.trim();
-    this.setState({ query, isLoading: true }, () => {
-      BooksService.search(query)
-        .then(queriedBooks =>
-          this.setState(prev => prev.query !== query || { queriedBooks })
-        )
-        .catch(() => this.resetBooks())
-        .finally(() =>
-          setTimeout(() => this.setState({ isLoading: false }), 1000)
-        );
-    });
-  }
+    this.setState({ query, isLoading: true });
+    this.searchBook(query);
+  };
 
-  resetBooks() {
+  searchBook = lodash.debounce(async query => {
+    try {
+      if (!query) return;
+      const queriedBooks = await BooksService.search(query);
+      return this.setState(
+        state => (state.query === query ? { queriedBooks } : {})
+      );
+    } catch (e) {
+      this.resetBooks();
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  }, 800);
+
+  resetBooks = () => {
     this.setState(() => ({ queriedBooks: [] }));
-  }
+  };
 
   render() {
     const { query, queriedBooks, isLoading } = this.state;
+    const { shelves } = this.props;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -72,6 +65,7 @@ class SearchBooks extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
+              autoFocus={true}
               value={query}
               onChange={this.handleChangeSearchInput}
             />
@@ -93,7 +87,7 @@ class SearchBooks extends Component {
                 <Book book={book}>
                   <ShelfChange
                     book={book}
-                    shelves={this.getShelves()}
+                    shelves={shelves}
                     handleChangeShelf={data => this.handleChangeShelf(data)}
                   />
                 </Book>

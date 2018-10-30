@@ -1,5 +1,6 @@
 import * as BooksAPI from "./BooksAPI";
 import "@babel/polyfill";
+import lodash from "lodash";
 
 export const getShelves = () => [
   {
@@ -13,14 +14,18 @@ export const getShelves = () => [
   {
     id: "read",
     name: "Read"
+  },
+  {
+    id: "none",
+    name: "None"
   }
 ];
 
 /**
  * Add shelf info from array returned in search API
- * 
- * @param {Array} queriedBooks 
- * @param {Array} booksInShelf 
+ *
+ * @param {Array} queriedBooks
+ * @param {Array} booksInShelf
  */
 const mergeBooks = (queriedBooks, booksInShelf) => {
   const mergedBooks = queriedBooks.map(book => {
@@ -39,16 +44,18 @@ const mergeBooks = (queriedBooks, booksInShelf) => {
 /**
  * Proxies getAll from BooksAPI
  */
-export const getAll = () => {
-  return BooksAPI.getAll()
-    .then(res => res)
-    .catch(err => Promise.reject(err));
+export const getAll = async () => {
+  try {
+    return await BooksAPI.getAll();
+  } catch (error) {
+    throw err;
+  }
 };
 
 /**
  * Proxies get book from BooksAPI
- * 
- * @param {number} id 
+ *
+ * @param {number} id
  */
 export const get = id => {
   return BooksAPI.get(id);
@@ -56,9 +63,9 @@ export const get = id => {
 
 /**
  * Treats, proxies and return books with shelves when searching a book.
- * 
- * @param {string} query 
- * @param {array} booksInShelf 
+ *
+ * @param {string} query
+ * @param {array} booksInShelf
  */
 export const search = async (query, booksInShelf) => {
   let searchedBooks = await BooksAPI.search(query);
@@ -76,19 +83,20 @@ export const search = async (query, booksInShelf) => {
 
 /**
  * Update shelf info from a book.
- * 
- * @param {object} book 
- * @param {object} shelf 
+ *
+ * @param {object} book
+ * @param {object} shelf
  */
-export const update = (book, shelf) => {
-  return BooksAPI.update(book, shelf)
-      .then(res => {
-        if(!Object.prototype.hasOwnProperty.call(res, shelf.id)) {
-          throw 'Response error';
-        }
-        if (!res[shelf.id].some((bookId) => book.id === bookId)) {
-          throw 'Book shelf not changed';
-        }
-        return res;
-      });
+export const update = async (book, shelf) => {
+  const shelvesList = await BooksAPI.update(book, shelf);
+
+  if (shelf === "none") {
+    if (lodash.some(shelvesList, shelf => shelf.includes(book.id)))
+      throw "Book shelf not changed";
+  } else {
+    if (!lodash.has(shelvesList, shelf)) throw "Response error";
+    if (!shelvesList[shelf].some(bookId => book.id === bookId))
+      throw "Book shelf not changed";
+  }
+  return await BooksAPI.getAll();
 };

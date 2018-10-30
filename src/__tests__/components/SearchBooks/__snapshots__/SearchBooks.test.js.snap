@@ -18,6 +18,7 @@ exports[`<SearchBooks /> should render search page 1`] = `
       className="search-books-input-wrapper"
     >
       <input
+        autoFocus="true"
         onChange={[Function]}
         placeholder="Search by title or author"
         type="text"

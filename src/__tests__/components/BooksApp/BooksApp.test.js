@@ -8,28 +8,26 @@ import * as BooksService from "../../../common/BooksService";
 jest.mock("../../../common/BooksService");
 
 describe("<BooksApp />", () => {
-  it("should render app page", () => {
+  it("should render app page", async () => {
+    const newBook = { ...books[0], shelf: "shelf3" };
+    const newBooks = books.filter(b => b.id !== books[0].id).concat(newBook);
+
     BooksService.getAll.mockImplementation(() => Promise.resolve(books));
-    BooksService.update.mockImplementation((book, shelf) =>
-      Promise.resolve({ ...book, shelf })
-    );
+
+    BooksService.update.mockImplementation((book, shelf) =>{
+      return Promise.resolve(newBooks);
+    });
+    
     BooksService.getShelves.mockReturnValue(shelves);
 
-    const newBook = { ...books[0], shelf: "shelf3" };
     const wrapper = mount(<BooksApp />);
     expect(toJson(wrapper)).toMatchSnapshot();
-    return BooksService.getAll()
-      .then(() => {
-        expect(wrapper.state("books")).toEqual(books);
-        expect(wrapper.state("shelves")).toEqual(shelves);
-        return wrapper.instance().onChangeShelf(newBook);
-      })
-      .then(() => {
-        expect(wrapper.state("books")).toEqual(
-          books
-            .map(b => (b.id === newBook.id ? newBook : b))
-            .sort((a, b) => b.id - a.id)
-        );
-      });
+
+    const allBooks = await BooksService.getAll();
+    expect(wrapper.state("books")).toEqual(allBooks);
+    expect(wrapper.state("shelves")).toEqual(shelves);
+
+    await wrapper.instance().onChangeShelf(newBook);
+    expect(wrapper.state("books")).toEqual(newBooks);
   });
 });

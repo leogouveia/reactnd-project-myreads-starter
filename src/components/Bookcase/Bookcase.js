@@ -16,7 +16,7 @@ class Bookcase extends React.Component {
     const { shelves, books, handleChangeShelf } = this.props;
     return (
       <div>
-        {shelves.map(bookshelf => (
+        {shelves.filter(s => s.id !== 'none').map(bookshelf => (
           <Shelf key={bookshelf.id} name={bookshelf.name}>
             {books.filter(book => book.shelf === bookshelf.id).map(book => (
               <li key={book.id}>

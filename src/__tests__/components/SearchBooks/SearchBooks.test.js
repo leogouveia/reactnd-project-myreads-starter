@@ -21,7 +21,8 @@ describe("<SearchBooks />", () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
-  it("should render results when user types a query", () => {
+  it("should render results when user types a query", (done) => {
+   
     BooksService.search.mockImplementation(() =>
       Promise.resolve({ ...booksWithoutShelf[1], shelf: "none" })
     );
@@ -34,21 +35,25 @@ describe("<SearchBooks />", () => {
       />
     );
 
+    const instance = wrapper.instance();
+    const searchBook = jest.spyOn(instance, 'searchBook');
+
     wrapper
       .find("input")
       .at(0)
       .simulate("change", {
-        target: { value: "anyQuery" }
+        target: { value: "anyQuery2" }
       });
 
-    expect(wrapper.state("query")).toBe("anyQuery");
+    expect(wrapper.state("query")).toBe("anyQuery2");
+    expect(searchBook).toHaveBeenCalledTimes(1);
 
-    expect(BooksService.search).toHaveBeenCalledWith("anyQuery");
-    return BooksService.search("anyQuery").then(() => {
+    setTimeout(() => {
       expect(wrapper.state("queriedBooks")).toEqual({
         ...booksWithoutShelf[1],
         shelf: "none"
       });
-    });
+      done();
+    }, 801);
   });
 });

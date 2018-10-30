@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import _ from "lodash";
+import lodash from "lodash";
 import "./Book.css";
 import noCoverImage from "./no-cover.jpg"
 
-export class Book extends Component {
+export class Book extends PureComponent {
   state = {};
 
   render() {
@@ -35,7 +35,7 @@ export class Book extends Component {
     title = title || "";
     authors = !Array.isArray(authors) ? authors : authors.join(", ");
     const thumbnail =
-      imageLinks && _.has(imageLinks, "thumbnail") ? imageLinks.thumbnail : "";
+      imageLinks && lodash.has(imageLinks, "thumbnail") ? imageLinks.thumbnail : "";
     return { title, authors, thumbnail };
   }
 }
